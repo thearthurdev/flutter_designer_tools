@@ -1,5 +1,7 @@
-import 'package:flutter_designer_tools/flutter_designer_tools.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_designer_tools/src/floating_settings_button.dart';
+import 'package:flutter_designer_tools/src/grid_overlay_settings.dart';
+import 'package:flutter_designer_tools/src/mockup_overlay_settings.dart';
 
 class SettingsPage extends StatelessWidget {
   @override

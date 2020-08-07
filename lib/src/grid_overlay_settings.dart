@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_designer_tools/flutter_designer_tools.dart';
+import 'package:flutter_designer_tools/src/grid_overlay.dart';
 
 class GridOverlaySettings extends StatefulWidget {
   @override
@@ -36,9 +35,9 @@ class _GridOverlaySettingsState extends State<GridOverlaySettings> {
         children: [
           SwitchListTile(
             value: gridEnabled,
-            onChanged: (b) =>
-                Provider.of<SettingsProvider>(context, listen: false)
-                    .toggleGridOverlay(b),
+            onChanged: (b) => setState(() {
+              gridEnabled = b;
+            }),
             secondary: Icon(
               Icons.grid_on,
               color: Colors.white,

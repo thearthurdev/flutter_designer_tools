@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_designer_tools/flutter_designer_tools.dart';
+import 'package:flutter_designer_tools/src/floating_settings_button.dart';
+import 'package:flutter_designer_tools/src/grid_overlay.dart';
+import 'package:flutter_designer_tools/src/mockup_overlay.dart';
+import 'package:flutter_designer_tools/src/settings_page.dart';
+import 'package:flutter_designer_tools/src/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class DesignerTools extends StatefulWidget {
@@ -104,53 +108,55 @@ class _DesignerToolsState extends State<DesignerTools> {
 
     return ChangeNotifierProvider<SettingsProvider>(
       create: (context) => SettingsProvider(),
-      child: Stack(
-        children: [
-          widget.child,
-          widget.mockupEnabled
-              ? MockupOverlay(
-                  mockupImage: _isPortrait
-                      ? widget.portraitMockup ?? widget.landscapeMockup
-                      : widget.landscapeMockup ?? widget.portraitMockup,
-                  mockupOpacity: widget.mockupOpacity,
-                )
-              : SizedBox(),
-          widget.gridEnabled
-              ? GridOverlay(
-                  gridLineColor: widget.gridLineColor,
-                  gridXInterval: widget.gridXInterval,
-                  gridYInterval: widget.gridYInterval,
-                )
-              : SizedBox(),
-          !widget.guiEnabled
-              ? SizedBox()
-              : Positioned(
-                  left: _floatingButtonPosition.dx,
-                  top: _floatingButtonPosition.dy,
-                  child: Draggable(
-                    onDraggableCanceled: (velocity, offset) =>
-                        _handlePositioning(offset: offset),
-                    childWhenDragging: SizedBox(),
-                    feedback: FloatingSettingsButton(isBeingDragged: true),
-                    child: Hero(
-                      tag: 'FOB',
-                      child: FloatingSettingsButton(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return SettingsPage();
-                              },
-                            ),
-                          );
-                        },
+      builder: (context, child) {
+        return Stack(
+          children: [
+            widget.child,
+            widget.mockupEnabled
+                ? MockupOverlay(
+                    mockupImage: _isPortrait
+                        ? widget.portraitMockup ?? widget.landscapeMockup
+                        : widget.landscapeMockup ?? widget.portraitMockup,
+                    mockupOpacity: widget.mockupOpacity,
+                  )
+                : SizedBox(),
+            widget.gridEnabled
+                ? GridOverlay(
+                    gridLineColor: widget.gridLineColor,
+                    gridXInterval: widget.gridXInterval,
+                    gridYInterval: widget.gridYInterval,
+                  )
+                : SizedBox(),
+            !widget.guiEnabled
+                ? SizedBox()
+                : Positioned(
+                    left: _floatingButtonPosition.dx,
+                    top: _floatingButtonPosition.dy,
+                    child: Draggable(
+                      onDraggableCanceled: (velocity, offset) =>
+                          _handlePositioning(offset: offset),
+                      childWhenDragging: SizedBox(),
+                      feedback: FloatingSettingsButton(isBeingDragged: true),
+                      child: Hero(
+                        tag: 'FOB',
+                        child: FloatingSettingsButton(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return SettingsPage();
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
