@@ -24,9 +24,9 @@ class FloatingSettingsButton extends StatelessWidget {
             onTap: onTap,
             customBorder: CircleBorder(),
             child: Image.asset(
-            'assets/designer_tools_transparent.png',
-            scale: 14.0,
-          ),
+              'assets/designer_tools_transparent.png',
+              scale: 14.0,
+            ),
           ),
         ),
       ),

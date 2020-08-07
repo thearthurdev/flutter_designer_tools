@@ -1,22 +1,9 @@
-library designer_tools.dart;
-
-import 'package:flutter_designer_tools/src/floating_settings_button.dart';
-import 'package:flutter_designer_tools/src/grid_overlay.dart';
-import 'package:flutter_designer_tools/src/mockup_overlay.dart';
-import 'package:flutter_designer_tools/src/settings_page.dart';
 import 'package:flutter/material.dart';
-
-export 'package:flutter_designer_tools/src/grid_overlay.dart';
-export 'package:flutter_designer_tools/src/grid_overlay_settings.dart';
-export 'package:flutter_designer_tools/src/mockup_overlay.dart';
-export 'package:flutter_designer_tools/src/mockup_overlay_settings.dart';
-export 'package:flutter_designer_tools/src/floating_settings_button.dart';
+import 'package:flutter_designer_tools/flutter_designer_tools.dart';
+import 'package:provider/provider.dart';
 
 class DesignerTools extends StatefulWidget {
   /// Wrap the layout or widget you want do design with [DesignerTools].
-  /// 
-  /// The tools and their options can either be set directly in code
-  /// or with a 
   const DesignerTools({
     Key key,
     @required this.child,
@@ -61,12 +48,12 @@ class DesignerTools extends StatefulWidget {
   final double mockupOpacity;
 
   /// Image for [MockupOverlay] when the device is in portrait mode.
-  /// 
+  ///
   /// If ```null``` and ```landscapeMockup``` is set, that image will be used instead.
   final ImageProvider portraitMockup;
 
   /// Image for [MockupOverlay] when the device is in landscape mode.
-  /// 
+  ///
   /// If ```null``` and ```portraitMockup``` is set, that image will be used instead.
   final ImageProvider landscapeMockup;
 
@@ -115,61 +102,64 @@ class _DesignerToolsState extends State<DesignerTools> {
 
     _handlePositioning();
 
-    return Stack(
-      children: [
-        widget.child,
-        widget.mockupEnabled
-            ? MockupOverlay(
-                mockupImage: _isPortrait
-                    ? widget.portraitMockup ?? widget.landscapeMockup
-                    : widget.landscapeMockup ?? widget.portraitMockup,
-                mockupOpacity: widget.mockupOpacity,
-              )
-            : SizedBox(),
-        widget.gridEnabled
-            ? GridOverlay(
-                lineColor: widget.gridLineColor,
-                xInterval: widget.gridXInterval,
-                yInterval: widget.gridYInterval,
-              )
-            : SizedBox(),
-        !widget.guiEnabled
-            ? SizedBox()
-            : Positioned(
-                left: _floatingButtonPosition.dx,
-                top: _floatingButtonPosition.dy,
-                child: Draggable(
-                  onDraggableCanceled: (velocity, offset) =>
-                      _handlePositioning(offset: offset),
-                  childWhenDragging: SizedBox(),
-                  feedback: FloatingSettingsButton(isBeingDragged: true),
-                  child: Hero(
-                    tag: 'FOB',
-                    child: FloatingSettingsButton(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return SettingsPage(
-                                gridEnabled: widget.gridEnabled,
-                                mockupEnabled: widget.mockupEnabled,
-                                gridLineColor: widget.gridLineColor,
-                                gridXInterval: widget.gridXInterval,
-                                gridYInterval: widget.gridYInterval,
-                                portraitMockup: widget.portraitMockup,
-                                landscapeMockup: widget.landscapeMockup,
-                                mockupOpacity: widget.mockupOpacity,
-                              );
-                            },
-                          ),
-                        );
-                      },
+    return Provider(
+      create: (context) => SettingsProvider(),
+      child: Stack(
+        children: [
+          widget.child,
+          widget.mockupEnabled
+              ? MockupOverlay(
+                  mockupImage: _isPortrait
+                      ? widget.portraitMockup ?? widget.landscapeMockup
+                      : widget.landscapeMockup ?? widget.portraitMockup,
+                  mockupOpacity: widget.mockupOpacity,
+                )
+              : SizedBox(),
+          widget.gridEnabled
+              ? GridOverlay(
+                  lineColor: widget.gridLineColor,
+                  xInterval: widget.gridXInterval,
+                  yInterval: widget.gridYInterval,
+                )
+              : SizedBox(),
+          !widget.guiEnabled
+              ? SizedBox()
+              : Positioned(
+                  left: _floatingButtonPosition.dx,
+                  top: _floatingButtonPosition.dy,
+                  child: Draggable(
+                    onDraggableCanceled: (velocity, offset) =>
+                        _handlePositioning(offset: offset),
+                    childWhenDragging: SizedBox(),
+                    feedback: FloatingSettingsButton(isBeingDragged: true),
+                    child: Hero(
+                      tag: 'FOB',
+                      child: FloatingSettingsButton(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return SettingsPage(
+                                  gridEnabled: widget.gridEnabled,
+                                  mockupEnabled: widget.mockupEnabled,
+                                  gridLineColor: widget.gridLineColor,
+                                  gridXInterval: widget.gridXInterval,
+                                  gridYInterval: widget.gridYInterval,
+                                  portraitMockup: widget.portraitMockup,
+                                  landscapeMockup: widget.landscapeMockup,
+                                  mockupOpacity: widget.mockupOpacity,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-      ],
+        ],
+      ),
     );
   }
 }

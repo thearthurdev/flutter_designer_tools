@@ -1,4 +1,4 @@
-import 'package:flutter_designer_tools/src/designer_tools.dart';
+import 'package:flutter_designer_tools/flutter_designer_tools.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
