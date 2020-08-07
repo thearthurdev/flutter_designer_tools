@@ -1,36 +1,24 @@
-import 'package:flutter_designer_tools/flutter_designer_tools.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_designer_tools/flutter_designer_tools.dart';
 
 class GridOverlaySettings extends StatefulWidget {
-  const GridOverlaySettings({
-    Key key,
-    this.gridEnabled,
-    this.gridLineColor,
-    this.gridXInterval,
-    this.gridYInterval,
-  }) : super(key: key);
-
-  final bool gridEnabled;
-  final Color gridLineColor;
-  final double gridXInterval;
-  final double gridYInterval;
-
   @override
   _GridOverlaySettingsState createState() => _GridOverlaySettingsState();
 }
 
 class _GridOverlaySettingsState extends State<GridOverlaySettings> {
   bool gridEnabled;
-  Color lineColor;
-  double xInterval;
-  double yInterval;
+  Color gridLineColor;
+  double gridXInterval;
+  double gridYInterval;
 
   @override
   void initState() {
     super.initState();
-    gridEnabled = widget.gridEnabled;
-    xInterval = 8.0;
-    yInterval = 8.0;
+    gridEnabled = false;
+    gridXInterval = 8.0;
+    gridYInterval = 8.0;
   }
 
   @override
@@ -48,11 +36,9 @@ class _GridOverlaySettingsState extends State<GridOverlaySettings> {
         children: [
           SwitchListTile(
             value: gridEnabled,
-            onChanged: (b) {
-              setState(() {
-                gridEnabled = b;
-              });
-            },
+            onChanged: (b) =>
+                Provider.of<SettingsProvider>(context, listen: false)
+                    .toggleGridOverlay(b),
             secondary: Icon(
               Icons.grid_on,
               color: Colors.white,
@@ -108,10 +94,10 @@ class _GridOverlaySettingsState extends State<GridOverlaySettings> {
                           min: 4,
                           max: 24,
                           divisions: 10,
-                          value: yInterval,
+                          value: gridYInterval,
                           onChanged: (value) {
                             setState(() {
-                              yInterval = value.roundToDouble();
+                              gridYInterval = value.roundToDouble();
                             });
                           },
                         ),
@@ -126,15 +112,15 @@ class _GridOverlaySettingsState extends State<GridOverlaySettings> {
                         children: [
                           Center(
                             child: Text(
-                              '${xInterval.toInt()} x ${yInterval.toInt()}',
+                              '${gridXInterval.toInt()} x ${gridYInterval.toInt()}',
                               style: TextStyle(
                                   color: Colors.black26, fontSize: 48.0),
                             ),
                           ),
                           GridOverlay(
-                            lineColor: Colors.blue,
-                            xInterval: xInterval,
-                            yInterval: yInterval,
+                            gridLineColor: Colors.blue,
+                            gridXInterval: gridXInterval,
+                            gridYInterval: gridYInterval,
                           ),
                         ],
                       ),
@@ -148,10 +134,10 @@ class _GridOverlaySettingsState extends State<GridOverlaySettings> {
                     min: 4,
                     max: 24,
                     divisions: 10,
-                    value: xInterval,
+                    value: gridXInterval,
                     onChanged: (value) {
                       setState(() {
-                        xInterval = value.roundToDouble();
+                        gridXInterval = value.roundToDouble();
                       });
                     },
                   ),

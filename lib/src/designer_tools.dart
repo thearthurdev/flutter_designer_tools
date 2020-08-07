@@ -97,12 +97,12 @@ class _DesignerToolsState extends State<DesignerTools> {
 
   @override
   Widget build(BuildContext context) {
+    _handlePositioning();
+
     bool _isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
 
-    _handlePositioning();
-
-    return Provider(
+    return ChangeNotifierProvider<SettingsProvider>(
       create: (context) => SettingsProvider(),
       child: Stack(
         children: [
@@ -117,9 +117,9 @@ class _DesignerToolsState extends State<DesignerTools> {
               : SizedBox(),
           widget.gridEnabled
               ? GridOverlay(
-                  lineColor: widget.gridLineColor,
-                  xInterval: widget.gridXInterval,
-                  yInterval: widget.gridYInterval,
+                  gridLineColor: widget.gridLineColor,
+                  gridXInterval: widget.gridXInterval,
+                  gridYInterval: widget.gridYInterval,
                 )
               : SizedBox(),
           !widget.guiEnabled
@@ -140,16 +140,7 @@ class _DesignerToolsState extends State<DesignerTools> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return SettingsPage(
-                                  gridEnabled: widget.gridEnabled,
-                                  mockupEnabled: widget.mockupEnabled,
-                                  gridLineColor: widget.gridLineColor,
-                                  gridXInterval: widget.gridXInterval,
-                                  gridYInterval: widget.gridYInterval,
-                                  portraitMockup: widget.portraitMockup,
-                                  landscapeMockup: widget.landscapeMockup,
-                                  mockupOpacity: widget.mockupOpacity,
-                                );
+                                return SettingsPage();
                               },
                             ),
                           );

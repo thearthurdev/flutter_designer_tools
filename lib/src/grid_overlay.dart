@@ -55,33 +55,33 @@ class GridOverlay extends StatelessWidget {
   /// Creates a widget that draws a rectilinear grid of lines.
   const GridOverlay({
     Key key,
-    this.lineColor = Colors.indigo,
-    this.xInterval = 8.0,
-    this.yInterval = 8.0,
+    this.gridLineColor = Colors.indigo,
+    this.gridXInterval = 8.0,
+    this.gridYInterval = 8.0,
   }) : super(key: key);
 
   /// The color to draw the lines in the grid.
   ///
   /// Defaults to a light blue commonly seen on traditional grid paper.
-  final Color lineColor;
+  final Color gridLineColor;
 
   /// The distance between the horizontal lines in the grid, in logical pixels.
   ///
   /// Each primary line is 0.8 logical pixel wide.
-  final double xInterval;
+  final double gridXInterval;
 
   /// The distance between the vertical lines in the grid, in logical pixels.
   ///
   /// Each primary line is 0.8 logical pixel wide.
-  final double yInterval;
+  final double gridYInterval;
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       foregroundPainter: _GridPaperPainter(
-        color: lineColor,
-        xInterval: xInterval,
-        yInterval: yInterval,
+        color: gridLineColor,
+        xInterval: gridXInterval,
+        yInterval: gridYInterval,
       ),
       child: Container(),
     );

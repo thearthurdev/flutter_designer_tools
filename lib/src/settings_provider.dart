@@ -1,42 +1,51 @@
 import 'package:flutter/material.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  bool gridEnabled = false;
-  bool mockupEnabled = false;
-  Color gridLineColor = Colors.red;
-  double gridXInterval = 8.0;
-  double gridYInterval = 8.0;
-  double mockupOpacity = 50.0;
-  ImageProvider portraitMockup;
-  ImageProvider landscapeMockup;
+  bool _gridEnabled = false;
+  bool _mockupEnabled = false;
+  Color _gridLineColor = Colors.red;
+  double _gridXInterval = 8.0;
+  double _gridYInterval = 8.0;
+  double _mockupOpacity = 50.0;
+  ImageProvider _portraitMockup;
+  ImageProvider _landscapeMockup;
+
+  bool get gridEnabled => _gridEnabled;
+  bool get mockupEnabled => _mockupEnabled;
+  Color get gridLineColor => _gridLineColor;
+  double get gridXInterval => _gridXInterval;
+  double get gridYInterval => _gridYInterval;
+  double get mockupOpacity => _mockupOpacity;
+  ImageProvider get portraitMockup => _portraitMockup;
+  ImageProvider get landscapeMockup => _landscapeMockup;
 
   void toggleGridOverlay(bool b) {
-    gridEnabled = b;
+    _gridEnabled = b;
     notifyListeners();
   }
 
   void toggleMockupOverlay(bool b) {
-    mockupEnabled = b;
+    _mockupEnabled = b;
     notifyListeners();
   }
 
   void setGridLineColor(Color color) {
-    gridLineColor = color;
+    _gridLineColor = color;
     notifyListeners();
   }
 
   void setGridXInterval(double xInterval) {
-    gridXInterval = xInterval;
+    _gridXInterval = xInterval;
     notifyListeners();
   }
 
   void setGridYInterval(double yInterval) {
-    gridYInterval = yInterval;
+    _gridYInterval = yInterval;
     notifyListeners();
   }
 
   void setMockupOpacity(double opacity) {
-    mockupOpacity = opacity;
+    _mockupOpacity = opacity;
     notifyListeners();
   }
 }

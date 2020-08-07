@@ -25,6 +25,7 @@ class FloatingSettingsButton extends StatelessWidget {
             customBorder: CircleBorder(),
             child: Image.asset(
               'assets/designer_tools_transparent.png',
+              package: 'flutter_designer_tools',
               scale: 14.0,
             ),
           ),
