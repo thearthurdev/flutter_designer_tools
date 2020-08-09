@@ -8,6 +8,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_designer_tools/src/settings_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class _GridPaperPainter extends CustomPainter {
   const _GridPaperPainter({
@@ -55,9 +57,9 @@ class GridOverlay extends StatelessWidget {
   /// Creates a widget that draws a rectilinear grid of lines.
   const GridOverlay({
     Key key,
-    this.gridLineColor = Colors.indigo,
-    this.gridXInterval = 8.0,
-    this.gridYInterval = 8.0,
+    this.gridLineColor,
+    this.gridXInterval,
+    this.gridYInterval,
   }) : super(key: key);
 
   /// The color to draw the lines in the grid.
@@ -77,13 +79,17 @@ class GridOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      foregroundPainter: _GridPaperPainter(
-        color: gridLineColor,
-        xInterval: gridXInterval,
-        yInterval: gridYInterval,
-      ),
-      child: Container(),
-    );
+    return Consumer((context, watch) {
+      final provider = watch(settingsProvider);
+
+      return CustomPaint(
+        foregroundPainter: _GridPaperPainter(
+          color: gridLineColor ?? provider.gridLineColor,
+          xInterval: gridXInterval ?? provider.gridXInterval,
+          yInterval: gridYInterval ?? provider.gridYInterval,
+        ),
+        child: Container(),
+      );
+    });
   }
 }
