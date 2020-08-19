@@ -8,10 +8,12 @@ class SettingsProvider extends ChangeNotifier {
   bool _showSettings = false;
   bool _gridEnabled = false;
   bool _mockupEnabled = false;
+  bool _pickerEnabled = false;
   Color _gridLineColor = Colors.red;
   double _gridXInterval = 8.0;
   double _gridYInterval = 8.0;
   double _mockupOpacity = 50.0;
+  double _scrollOffset = 0.0;
   ImageProvider _portraitMockup;
   ImageProvider _landscapeMockup;
   Offset _floatingButtonPosition;
@@ -20,6 +22,7 @@ class SettingsProvider extends ChangeNotifier {
   bool get showSettings => _showSettings;
   bool get gridEnabled => _gridEnabled;
   bool get mockupEnabled => _mockupEnabled;
+  bool get pickerEnabled => _pickerEnabled;
   Color get gridLineColor => _gridLineColor;
   double get gridXInterval => _gridXInterval;
   double get gridYInterval => _gridYInterval;
@@ -27,6 +30,27 @@ class SettingsProvider extends ChangeNotifier {
   ImageProvider get portraitMockup => _portraitMockup;
   ImageProvider get landscapeMockup => _landscapeMockup;
   Offset get floatingButtonPosition => _floatingButtonPosition;
+  double get scrollOffset => _scrollOffset;
+
+  void overrideGUISettings(
+    bool gridEnabled,
+    bool mockupEnabled,
+    Color gridLineColor,
+    double gridXInterval,
+    double gridYInterval,
+    double mockupOpacity,
+    ImageProvider portraitMockup,
+    ImageProvider landscapeMockup,
+  ) {
+    _gridEnabled = gridEnabled ?? _gridEnabled;
+    _mockupEnabled = mockupEnabled ?? _mockupEnabled;
+    _gridLineColor = gridLineColor ?? _gridLineColor;
+    _gridXInterval = gridXInterval ?? _gridXInterval;
+    _gridYInterval = gridYInterval ?? _gridYInterval;
+    _mockupOpacity = mockupOpacity ?? _mockupOpacity;
+    _portraitMockup = portraitMockup ?? _portraitMockup;
+    _landscapeMockup = landscapeMockup ?? _landscapeMockup;
+  }
 
   void toggleAcceptFOB(bool b) {
     _acceptFOB = b;
@@ -48,6 +72,11 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void togglePickerEnabled(bool b) {
+    _pickerEnabled = b;
+    notifyListeners();
+  }
+
   void setGridLineColor(Color color) {
     _gridLineColor = color;
     notifyListeners();
@@ -66,6 +95,18 @@ class SettingsProvider extends ChangeNotifier {
   void setMockupOpacity(double opacity) {
     _mockupOpacity = opacity;
     notifyListeners();
+  }
+
+  void setPortraitMockup(ImageProvider mockup) {
+    _portraitMockup = mockup;
+  }
+
+  void setLandscapeMockup(ImageProvider mockup) {
+    _landscapeMockup = mockup;
+  }
+
+  void setScrollOffset(double offset) {
+    _scrollOffset = offset;
   }
 
   void handlePositioning(BuildContext context, {Offset offset}) {

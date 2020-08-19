@@ -33,8 +33,10 @@ class DesignerTools extends StatelessWidget {
 
   /// Whether or not [FloatingSettingsButton] is enabled.
   ///
-  /// When ```true```, user can adjust all settings through a
-  /// settings page accessed by tapping on [FloatingSettingsButton]
+  /// When ```true```, user can adjust all settings through a settings page accessed by
+  /// tapping on [FloatingSettingsButton].
+  ///
+  /// Note that values specified in code override those specified in the GUI.
   final bool guiEnabled;
 
   /// Color of the grid lines.
@@ -67,49 +69,77 @@ class DesignerTools extends StatelessWidget {
       child: Consumer(
         (context, watch) {
           final provider = watch(settingsProvider);
+
           provider.handlePositioning(context);
 
-          return Stack(
-            children: [
-              child,
-              mockupEnabled ?? provider.mockupEnabled
-                  ? MockupOverlay(
-                      mockupOpacity: mockupOpacity,
-                      portraitMockup: portraitMockup ?? landscapeMockup,
-                      landscapeMockup: landscapeMockup ?? portraitMockup,
-                    )
-                  : SizedBox(),
-              gridEnabled ?? provider.gridEnabled
-                  ? GridOverlay(
-                      gridLineColor: gridLineColor,
-                      gridXInterval: gridXInterval,
-                      gridYInterval: gridYInterval,
-                    )
-                  : SizedBox(),
-              AnimatedSwitcher(
-                duration: Duration(milliseconds: 300),
-                reverseDuration: Duration(milliseconds: 200),
-                switchInCurve: Curves.easeOut,
-                switchOutCurve: Curves.easeInQuad,
-                child: provider.showSettings ? SettingsPage() : SizedBox(),
-              ),
-              !guiEnabled || provider.acceptFOB
-                  ? SizedBox()
-                  : Positioned(
-                      left: provider.floatingButtonPosition.dx,
-                      top: provider.floatingButtonPosition.dy,
-                      child: Draggable(
-                        onDragEnd: (details) => provider
-                            .handlePositioning(context, offset: details.offset),
-                        childWhenDragging: SizedBox(),
-                        feedback: FloatingSettingsButton(isBeingDragged: true),
-                        child: FloatingSettingsButton(
-                          onTap: () => provider
-                              .toggleShowSettings(!provider.showSettings),
+          // Override GUI settings with those specified directly in code if specified
+          provider.overrideGUISettings(
+            gridEnabled,
+            mockupEnabled,
+            gridLineColor,
+            gridXInterval,
+            gridYInterval,
+            mockupOpacity,
+            portraitMockup,
+            landscapeMockup,
+          );
+
+          return WillPopScope(
+            onWillPop: () async {
+              if (provider.showSettings) {
+                provider.toggleShowSettings(false);
+                provider.toggleAcceptFOB(false);
+                return true;
+              }
+              return true;
+            },
+            child: Stack(
+              children: [
+                child,
+                provider.mockupEnabled
+                    ? MockupOverlay(
+                        mockupOpacity: mockupOpacity,
+                        portraitMockup: portraitMockup ?? landscapeMockup,
+                        landscapeMockup: landscapeMockup ?? portraitMockup,
+                      )
+                    : SizedBox(),
+                provider.gridEnabled
+                    ? GridOverlay(
+                        gridLineColor: gridLineColor,
+                        gridXInterval: gridXInterval,
+                        gridYInterval: gridYInterval,
+                      )
+                    : SizedBox(),
+                AnimatedSwitcher(
+                  duration: Duration(milliseconds: 400),
+                  reverseDuration: Duration(milliseconds: 300),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeInQuad,
+                  child: provider.showSettings
+                      ? SettingsPage(provider.scrollOffset)
+                      : SizedBox(),
+                ),
+                !guiEnabled || provider.acceptFOB
+                    ? SizedBox()
+                    : Positioned(
+                        left: provider.floatingButtonPosition.dx,
+                        top: provider.floatingButtonPosition.dy,
+                        child: Draggable(
+                          onDragEnd: (details) => provider.handlePositioning(
+                              context,
+                              offset: details.offset),
+                          childWhenDragging: SizedBox(),
+                          feedback: FloatingSettingsButton(
+                              provider: provider, isBeingDragged: true),
+                          child: FloatingSettingsButton(
+                            provider: provider,
+                            onTap: () => provider
+                                .toggleShowSettings(!provider.showSettings),
+                          ),
                         ),
                       ),
-                    ),
-            ],
+              ],
+            ),
           );
         },
       ),

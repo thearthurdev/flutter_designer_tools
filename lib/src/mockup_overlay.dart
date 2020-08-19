@@ -24,7 +24,7 @@ class MockupOverlay extends StatelessWidget {
 
       double opacity = mockupOpacity ?? provider.mockupOpacity;
 
-      assert(opacity > 10.0 && opacity < 100.0,
+      assert(opacity >= 10.0 && opacity <= 100.0,
           'mockupOpacity must range from 10.0 to 100.0');
 
       return IgnorePointer(

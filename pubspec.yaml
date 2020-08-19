@@ -11,9 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  image_color_picker: ^1.0.7
-  flutter_material_color_picker: ^1.0.5
   flutter_riverpod: ^0.5.1
+  flutter_colorpicker: ^0.3.4
 
 dev_dependencies:
   flutter_test:
@@ -22,4 +21,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets/designer_tools_transparent.png
+    - assets/mockup.png

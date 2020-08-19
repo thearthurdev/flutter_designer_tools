@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_designer_tools/src/grid_overlay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_designer_tools/src/settings_provider.dart';
@@ -15,7 +16,7 @@ class GridOverlaySettings extends StatelessWidget {
       double gridYInterval = provider.gridYInterval;
 
       return Container(
-        margin: EdgeInsets.all(8.0),
+        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         padding: EdgeInsets.symmetric(vertical: 8.0),
         constraints: BoxConstraints(maxWidth: 500.0),
         decoration: BoxDecoration(
@@ -46,7 +47,7 @@ class GridOverlaySettings extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
-                'Overlay a rectangular grid to align your layouts and widgets. Use the default 8dp x 8dp grid or set a custom grid size. Adjust the color and opacity of the line to suite your needs.',
+                'Overlay a rectangular grid to align your layouts and widgets. Adjust the intervals and color of the lines to suite your needs.',
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -57,6 +58,12 @@ class GridOverlaySettings extends StatelessWidget {
               ),
             ),
             ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  child: SelectColorDialog(provider),
+                );
+              },
               dense: true,
               title: Text(
                 'Line color',
@@ -131,5 +138,38 @@ class GridOverlaySettings extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class SelectColorDialog extends StatelessWidget {
+  const SelectColorDialog(this.provider);
+
+  final SettingsProvider provider;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      title: const Text('Pick a color'),
+      content: SingleChildScrollView(
+        child: ColorPicker(
+          pickerAreaBorderRadius: BorderRadius.circular(10.0),
+          pickerColor: provider.gridLineColor,
+          onColorChanged: (color) => provider.setGridLineColor(color),
+          showLabel: true,
+          pickerAreaHeightPercent: 0.6,
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('Done'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
   }
 }

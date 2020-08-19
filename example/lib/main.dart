@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return DesignerTools(
+      portraitMockup: AssetImage('lib/assets/mockup.png'),
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),

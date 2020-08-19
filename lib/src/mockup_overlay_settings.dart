@@ -15,8 +15,8 @@ class MockupOverlaySettings extends StatelessWidget {
         double mockupOpacity = provider.mockupOpacity;
 
         return Container(
+          margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           padding: EdgeInsets.symmetric(vertical: 8.0),
-          margin: EdgeInsets.all(8.0),
           constraints: BoxConstraints(maxWidth: 500.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
@@ -46,7 +46,7 @@ class MockupOverlaySettings extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Text(
-                  'Overlay a mockup to get a live preview of the layout or widget you are working on. Enable Juxtapose for even closer comparison by sliding to reveal/conceal the mockup.',
+                  'Overlay a mockup to get a live preview of the layout you are working on.',
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -59,21 +59,17 @@ class MockupOverlaySettings extends StatelessWidget {
               ListTile(
                 contentPadding: EdgeInsets.fromLTRB(16.0, 0.0, 12.0, 8.0),
                 title: Text(
-                  'Select Mockup',
+                  'Set Mockups',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.0,
                   ),
                 ),
-                trailing: Tooltip(
-                  message: 'Reset Mockups',
-                  waitDuration: Duration(milliseconds: 700),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.refresh,
-                      color: Colors.white,
-                    ),
+                subtitle: Text(
+                  'Specify your mockup ImageProvider directly in the DesignerTools widget',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11.0,
                   ),
                 ),
               ),
@@ -95,28 +91,26 @@ class MockupOverlaySettings extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 4.0),
-                              Material(
-                                type: MaterialType.transparency,
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    width: 80.0,
-                                    height: 140.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black12,
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color: Colors.white,
-                                      ),
-                                      image: portraitMockup == null
-                                          ? null
-                                          : DecorationImage(
-                                              image: portraitMockup,
-                                            ),
-                                    ),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
+                              Container(
+                                width: 80.0,
+                                height: 140.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.black12,
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Colors.white,
+                                  ),
+                                  image: portraitMockup == null
+                                      ? null
+                                      : DecorationImage(image: portraitMockup),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'No\nMockup\nSet',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white60,
+                                      fontSize: 11.0,
                                     ),
                                   ),
                                 ),
@@ -134,28 +128,28 @@ class MockupOverlaySettings extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 4.0),
-                              Material(
-                                type: MaterialType.transparency,
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    width: 140.0,
-                                    height: 80.0,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black12,
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color: Colors.white,
-                                      ),
-                                      image: landscapeMockup == null
-                                          ? null
-                                          : DecorationImage(
-                                              image: landscapeMockup,
-                                            ),
-                                    ),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
+                              Container(
+                                width: 140.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.black12,
+                                  border: Border.all(
+                                    width: 2.0,
+                                    color: Colors.white,
+                                  ),
+                                  image: landscapeMockup == null
+                                      ? null
+                                      : DecorationImage(
+                                          image: landscapeMockup,
+                                        ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'No\nMockup\nSet',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white60,
+                                      fontSize: 11.0,
                                     ),
                                   ),
                                 ),

@@ -1,19 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_designer_tools/src/color_picker_settings.dart';
 import 'package:flutter_designer_tools/src/grid_overlay_settings.dart';
 import 'package:flutter_designer_tools/src/mockup_overlay_settings.dart';
 import 'package:flutter_designer_tools/src/floating_settings_button.dart';
 import 'package:flutter_designer_tools/src/settings_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  final double scrollOffset;
+
+  const SettingsPage(this.scrollOffset);
+
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  double _scrollOffset;
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollOffset = widget.scrollOffset;
+    _scrollController = ScrollController(initialScrollOffset: _scrollOffset);
+    _scrollController.addListener(handleScrolling);
+  }
+
+  void handleScrolling() => _scrollOffset = _scrollController.offset;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
       (context, watch) {
         final provider = watch(settingsProvider);
+        provider.setScrollOffset(_scrollOffset);
 
         return Scaffold(
           body: SingleChildScrollView(
+            controller: _scrollController,
+            padding: EdgeInsets.only(bottom: 4.0),
             child: Column(
               children: [
                 SizedBox(height: 60.0, width: double.infinity),
@@ -52,6 +84,7 @@ class SettingsPage extends StatelessWidget {
                         builder: (context, want, reject) {
                           return provider.acceptFOB
                               ? FloatingSettingsButton(
+                                provider: provider,
                                   onTap: () {
                                     provider.toggleShowSettings(false);
                                     provider.toggleAcceptFOB(false);
@@ -83,6 +116,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 GridOverlaySettings(),
                 MockupOverlaySettings(),
+                ColorPickerSettings(),
               ],
             ),
           ),
