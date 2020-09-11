@@ -23,7 +23,7 @@
 // }
 
 // class _ColorPickerWidgetState extends State<ColorPickerWidget> {
-//   String imagePath = 'assets/images/santorini.jpg';
+//   String imagePath = 'assets/mockup.png';
 //   GlobalKey imageKey = GlobalKey();
 //   GlobalKey paintKey = GlobalKey();
 
@@ -67,11 +67,12 @@
 //                     child: Center(
 //                       child: Image.asset(
 //                         imagePath,
+//                         package: 'flutter_designer_tools',
 //                         key: imageKey,
 //                         //color: Colors.red,
 //                         //colorBlendMode: BlendMode.hue,
 //                         //alignment: Alignment.bottomRight,
-//                         fit: BoxFit.none,
+//                         fit: BoxFit.contain,
 //                         //scale: .8,
 //                       ),
 //                     ),
