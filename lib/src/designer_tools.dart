@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_designer_tools/src/color_picker.dart';
 import 'package:flutter_designer_tools/src/floating_settings_button.dart';
 import 'package:flutter_designer_tools/src/grid_overlay.dart';
 import 'package:flutter_designer_tools/src/mockup_overlay.dart';
@@ -135,6 +136,11 @@ class DesignerTools extends StatelessWidget {
                             provider: provider,
                             onTap: () => provider
                                 .toggleShowSettings(!provider.showSettings),
+                            // onTap: () => Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => ColorPickerWidget(),
+                            //   ),
+                            // ),
                           ),
                         ),
                       ),

@@ -46,8 +46,8 @@ class FloatingSettingsButton extends StatelessWidget {
           child: AnimatedContainer(
             duration: Duration(milliseconds: 300),
             curve: Curves.easeInOutQuart,
-            width: provider.pickerEnabled ? 24.0 : 0.0,
-            height: provider.pickerEnabled ? 24.0 : 0.0,
+            width: provider.pickerEnabled ? 18.0 : 0.0,
+            height: provider.pickerEnabled ? 18.0 : 0.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.teal[600],
@@ -56,19 +56,19 @@ class FloatingSettingsButton extends StatelessWidget {
                 ? Icon(
                     Icons.colorize,
                     color: Colors.white,
-                    size: 12.0,
+                    size: 10.0,
                   )
                 : null,
           ),
         ),
         Positioned(
-          left: -4.0,
-          top: 2.0,
+          left: -2.0,
+          top: 4.0,
           child: AnimatedContainer(
             duration: Duration(milliseconds: 300),
             curve: Curves.easeInOutQuart,
-            width: provider.mockupEnabled ? 24.0 : 0.0,
-            height: provider.mockupEnabled ? 24.0 : 0.0,
+            width: provider.mockupEnabled ? 18.0 : 0.0,
+            height: provider.mockupEnabled ? 18.0 : 0.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.pink,
@@ -77,19 +77,19 @@ class FloatingSettingsButton extends StatelessWidget {
                 ? Icon(
                     Icons.image,
                     color: Colors.white,
-                    size: 12.0,
+                    size: 10.0,
                   )
                 : null,
           ),
         ),
         Positioned(
           left: 10.0,
-          top: -8.0,
+          top: -4.0,
           child: AnimatedContainer(
             duration: Duration(milliseconds: 300),
             curve: Curves.easeInOutQuart,
-            width: provider.gridEnabled ? 24.0 : 0.0,
-            height: provider.gridEnabled ? 24.0 : 0.0,
+            width: provider.gridEnabled ? 18.0 : 0.0,
+            height: provider.gridEnabled ? 18.0 : 0.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.indigo[800],
@@ -98,7 +98,7 @@ class FloatingSettingsButton extends StatelessWidget {
                 ? Icon(
                     Icons.grid_on,
                     color: Colors.white,
-                    size: 12.0,
+                    size: 10.0,
                   )
                 : null,
           ),
